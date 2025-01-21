@@ -1,0 +1,36 @@
+
+|-- RH20T
+    |-- RH20T_cfg1
+    |   |-- calib/                            # Calibration folder, including calibration-time Gripper Cartesian pose, intrinsic and extrinsic matrices etc. Extrinsic matrices are the Aruco marker's Translations with respect to the camera frame.
+    |   |-- task_0001_user_0001_scene_0001_cfg_0001/        # Robotic manipulation data
+    |   |    |-- metadata.json                # Robot manipulation scene metadata, including scene finishing timestamp, task completion rating (0 denotes robot failure, 1 denotes task failure, 2-9 denotes completion quality, higher is better), calibration timestamp and calibration quality (0 means some cameras are not calibrated, 1-5 means calibration accuracy, lower is better), etc.
+    |   |    |-- cam_[serial_number]/         # Multiple cameras
+    |   |    |    |-- color.mp4               # Color images, encode as video. The extraction code is available in our API code.
+    |   |    |    |-- timestamps.npy          # Timestamp for each image, our extraction code will use it to decode images.
+    |   |    |    `-- depth.mp4 (optional)    # Depth images, encode as video. The extraction code is available in our API code.
+    |   |    |-- transformed/
+    |   |    |    |-- tcp.npy                 # Gripper Cartesian pose in each cam's coord, {serial number: [{"timestamp": ..., "tcp": ..., "robot_ft": ...}]}, where "tcp" values are xyz+quat (7D) Gripper Cartesian poses
+    |   |    |    |-- tcp_base.npy            # Gripper Cartesian pose in base coord, {serial number: [{"timestamp": ..., "tcp": ..., "robot_ft": ...}]}, where "tcp" values are xyz+quat (7D) Gripper Cartesian poses
+    |   |    |    |-- joint.npy               # Joint angles, {serial number: {timestamp: joint angle array}}
+    |   |    |    |-- gripper.npy             # Gripper commands and information, {serial number: {timestamp: {"gripper_command": 3D array, "gripper_info": 3D array}}}, where the 1st element in the 3D array is the actual gripper width in millimeters(0-110)
+    |   |    |    |-- force_torque.npy        # 6-DoF force/torque in cam's coord, {serial number: [{"timestamp": ..., "zeroed": ..., "raw": ...}]}, where "zeroed" values are pre-processed
+    |   |    |    |-- force_torque_base.npy   # 6-DoF force/torque in base coord, {serial number: [{"timestamp": ..., "zeroed": ..., "raw": ...}]}, where "zeroed" values are pre-processed
+    |   |    |    `-- high_freq_data.npy      # High frequency data, {serial number: [{"timestamp": ..., "zeroed": ..., "raw": ..., "tcp": ...}]}
+    |   |    `-- audio_mixed/                 # audio file (can skip now)
+    |   |
+    |   |
+    |   |-- task_0001_user_0001_scene_0002_cfg_0001/
+    |   |   | ......
+
+
+
+- image : [ 036422060909,   # image
+            038522062288,
+            045322071843,   # wrist_image
+            104122062295,
+            104122062823,
+            104122063550,
+            104422070011,
+            f0172289,       #( horizontal angle )
+            ]
+-   wrist_image :   045322071843

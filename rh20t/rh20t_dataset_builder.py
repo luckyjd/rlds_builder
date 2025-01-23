@@ -40,12 +40,12 @@ class Rh20tDataset(tfds.core.GeneratorBasedBuilder):
                             encoding_format='png',
                             doc='Main camera RGB observation.',
                         ),
-                        'image_depth': tfds.features.Image(
-                            shape=(360, 640, 1),
-                            dtype=np.uint16,
-                            encoding_format='png',
-                            doc='Depth camera RGB observation.',
-                        ),
+                        # 'image_depth': tfds.features.Image(
+                        #     shape=(360, 640, 1),
+                        #     dtype=np.uint16,
+                        #     encoding_format='png',
+                        #     doc='Depth camera RGB observation.',
+                        # ),
                         'state': tfds.features.Tensor(
                             shape=(7,),
                             dtype=np.float32,
@@ -81,80 +81,80 @@ class Rh20tDataset(tfds.core.GeneratorBasedBuilder):
                     'language_instruction': tfds.features.Text(
                         doc='Language Instruction.'
                     ),
-                    'metadata': tfds.features.FeaturesDict({
-                        'task_description_chinese': tfds.features.Text(
-                            doc='Language Instruction in Chinese.'
-                        ),
-                        'timestamp': tfds.features.Scalar(
-                            dtype=np.float32,
-                        ),
-                        'tcp': tfds.features.FeaturesDict({
-                            'tcp': tfds.features.Tensor(
-                                shape=(7,),     # 7
-                                dtype=np.float32,
-                            ),
-                            'robot_ft': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                        }),
-                        'tcp_base': tfds.features.FeaturesDict({
-                            'tcp': tfds.features.Tensor(
-                                shape=(7,),     # 7
-                                dtype=np.float32,
-                            ),
-                            'robot_ft': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                        }),
-                        'force_torque': tfds.features.FeaturesDict({
-                            'zeroed': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                            'raw': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                        }),
-                        'force_torque_base': tfds.features.FeaturesDict({
-                            'zeroed': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                            'raw': tfds.features.Tensor(
-                                shape=(6,),     # 6
-                                dtype=np.float32,
-                            ),
-                        }),
-                        'gripper': tfds.features.FeaturesDict({
-                            'gripper_command': tfds.features.Sequence(
-                                tfds.features.Tensor(shape=(), dtype=np.float32)  # Mỗi phần tử là một số
-                            ),
-                            'gripper_info': tfds.features.Sequence(
-                                tfds.features.Tensor(shape=(), dtype=np.float32)
-                            ),
-                        }),
-                        'high_freq_data': tfds.features.FeaturesDict({
-                            'zeroed': tfds.features.Tensor(
-                                shape=(6,),
-                                dtype=np.float32,
-                            ),
-                            'raw': tfds.features.Tensor(
-                                shape=(6,),
-                                dtype=np.float32,
-                            ),
-                            'tcp': tfds.features.Tensor(
-                                shape=(7,),
-                                dtype=np.float32,
-                            ),
-                        }),
-                        'joint': tfds.features.Tensor(
-                            shape=(6,),
-                            dtype=np.float32,
-                        ),
-                    }),
+                    # 'metadata': tfds.features.FeaturesDict({
+                    #     'task_description_chinese': tfds.features.Text(
+                    #         doc='Language Instruction in Chinese.'
+                    #     ),
+                    #     'timestamp': tfds.features.Scalar(
+                    #         dtype=np.float32,
+                    #     ),
+                    #     'tcp': tfds.features.FeaturesDict({
+                    #         'tcp': tfds.features.Tensor(
+                    #             shape=(7,),     # 7
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'robot_ft': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #     }),
+                    #     'tcp_base': tfds.features.FeaturesDict({
+                    #         'tcp': tfds.features.Tensor(
+                    #             shape=(7,),     # 7
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'robot_ft': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #     }),
+                    #     'force_torque': tfds.features.FeaturesDict({
+                    #         'zeroed': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'raw': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #     }),
+                    #     'force_torque_base': tfds.features.FeaturesDict({
+                    #         'zeroed': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'raw': tfds.features.Tensor(
+                    #             shape=(6,),     # 6
+                    #             dtype=np.float32,
+                    #         ),
+                    #     }),
+                    #     'gripper': tfds.features.FeaturesDict({
+                    #         'gripper_command': tfds.features.Sequence(
+                    #             tfds.features.Tensor(shape=(), dtype=np.float32)  # Mỗi phần tử là một số
+                    #         ),
+                    #         'gripper_info': tfds.features.Sequence(
+                    #             tfds.features.Tensor(shape=(), dtype=np.float32)
+                    #         ),
+                    #     }),
+                    #     'high_freq_data': tfds.features.FeaturesDict({
+                    #         'zeroed': tfds.features.Tensor(
+                    #             shape=(6,),
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'raw': tfds.features.Tensor(
+                    #             shape=(6,),
+                    #             dtype=np.float32,
+                    #         ),
+                    #         'tcp': tfds.features.Tensor(
+                    #             shape=(7,),
+                    #             dtype=np.float32,
+                    #         ),
+                    #     }),
+                    #     'joint': tfds.features.Tensor(
+                    #         shape=(6,),
+                    #         dtype=np.float32,
+                    #     ),
+                    # }),
                     # 'language_embedding': tfds.features.Tensor(
                     #     shape=(512,),
                     #     dtype=np.float32,

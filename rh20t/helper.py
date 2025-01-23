@@ -155,14 +155,13 @@ def sync_and_create_episode(serial_number, cam_dict, robot_dict, eng_text, ch_te
         state = check_none(robot_dict, state_action_default, serial_number, ts, "tcp")
         metadata = generate_step_metadata(serial_number, ts, robot_dict, ch_text)
         if state is not None:
-
             euler = quat2euler(state[3:])
             state = np.concatenate((state[:3], euler, np.array([metadata["gripper"]["gripper_info"][0]])))
             state = state.astype(np.float32)
         step = {
             "observation": {
                 "image": check_none(cam_dict, serial_number, COLOR, ts),
-                "image_depth": check_none(cam_dict, serial_number, DEPTH, ts),
+                # "image_depth": check_none(cam_dict, serial_number, DEPTH, ts),
                 # "wrist_image": check_none(cam_dict, serial_number, COLOR, ts),
                 # "wrist_image_depth": check_none(cam_dict, serial_number, DEPTH, ts),
                 "state": state,
@@ -171,7 +170,7 @@ def sync_and_create_episode(serial_number, cam_dict, robot_dict, eng_text, ch_te
             "reward": 0.0,
             "discount": 1.0,
             "language_instruction": eng_text,
-            "metadata": metadata,
+            # "metadata": metadata,
             "is_first": is_first,
             "is_last": False,
             "is_terminal": False,

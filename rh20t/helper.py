@@ -5,7 +5,7 @@ import re
 import cv2
 import numpy as np
 from collections import defaultdict
-from geometry import quat2euler
+from rh20t.geometry import quat2euler
 
 from rh20t.config import keep_origin_transformed_files, task_description_file, COLOR, DEPTH, \
     state_action_default, transformed_default_values
@@ -231,11 +231,3 @@ def postprocess_action_as_next_state(steps):
     # last step => 7 zeros
     steps[-1]["action"] = np.zeros(7, dtype=np.float32)
 
-
-if __name__ == '__main__':
-    scene_name = "task_0001_user_0002_scene_0003_cfg_0001"
-    data_root = "/home/nhattx/Workspace/VR/Study_robotics/dataset/RH20T_unrar"
-    task_name = parse_task_from_scene(scene_name)
-    # print(get_language_info(data_root, task_name))
-    scene_folder = "/home/nhattx/Workspace/VR/Study_robotics/dataset/RH20T_unrar/RH20T_cfg3/task_0001_user_0016_scene_0001_cfg_0003"
-    print(build_all_cameras(scene_folder))

@@ -1,6 +1,6 @@
 import os
 import glob
-import json
+import re
 import numpy as np
 from logger import get_logger
 import tensorflow_datasets as tfds
@@ -180,9 +180,12 @@ class Rh20tDataset(tfds.core.GeneratorBasedBuilder):
             raise ValueError("can not found cam dir")
         scene_folders = glob.glob(os.path.join(cfg_folder, "task_*_user_*_scene_*_cfg_*"))
 
-        split_index = int(len(scene_folders) * train_percent)
-        train_cfg = scene_folders[:split_index]
-        test_cfg = scene_folders[split_index:]
+        pattern = re.compile(r"task_\d+_user_\d+_scene_\d+_cfg_\d+$")
+        filtered_folders = [folder for folder in scene_folders if pattern.search(os.path.basename(folder))]
+        split_index = int(len(filtered_folders) * train_percent)
+
+        train_cfg = filtered_folders[:split_index]
+        test_cfg = filtered_folders[split_index:]
 
         return {
             "train": self._generate_examples(train_cfg),

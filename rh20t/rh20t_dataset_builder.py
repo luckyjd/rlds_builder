@@ -2,11 +2,15 @@ import os
 import glob
 import json
 import numpy as np
-
+from logger import get_logger
 import tensorflow_datasets as tfds
-from rh20t.helper import parse_task_from_scene, get_language_info, build_all_cameras, load_camera_frames_and_timestamps, build_robot_data, sync_and_create_episode, postprocess_action_as_next_state
+
+from rh20t.helper import parse_task_from_scene, get_language_info, build_all_cameras, build_robot_data, \
+    sync_and_create_episode, postprocess_action_as_next_state
 
 from rh20t.config import train_percent
+
+logger = get_logger("rh20t")
 
 _DESCRIPTION = """
 RH20T dataset: Robot manipulation raw data -> TFDS.
@@ -204,25 +208,26 @@ class Rh20tDataset(tfds.core.GeneratorBasedBuilder):
             robot_dict = build_robot_data(scene_folder)
 
             cam_folders = glob.glob(os.path.join(scene_folder, "cam_*"))
-            serial_number_list = {os.path.basename(folder).split('_', 1)[1] for folder in cam_folders if os.path.isdir(folder)}
+            serial_number_list = {os.path.basename(folder).split('_', 1)[1] for folder in cam_folders if
+                                  os.path.isdir(folder)}
 
             # each serial number
             for serial_number in serial_number_list:
-                steps = sync_and_create_episode(serial_number, cam_dict, robot_dict, eng_text, ch_text)
-                if not steps:
-                    continue
-                postprocess_action_as_next_state(steps)
+                try:
+                    steps = sync_and_create_episode(serial_number, cam_dict, robot_dict, eng_text, ch_text)
+                    if not steps:
+                        continue
+                    postprocess_action_as_next_state(steps)
 
-                sample = {
-                    'steps': steps,
-                    'episode_metadata': {
-                        'data_path': f"{scene_folder}/cam_{serial_number}"
+                    sample = {
+                        'steps': steps,
+                        'episode_metadata': {
+                            'data_path': f"{scene_folder}/cam_{serial_number}"
+                        }
                     }
-                }
 
-                yield example_id, sample
-                example_id += 1
-
-
-
-
+                    yield example_id, sample
+                    example_id += 1
+                except Exception as ex:
+                    logger.error(f"{scene_folder}---{serial_number}")
+                    logger.error(ex)

@@ -191,7 +191,7 @@ def check_none(data, *keys):
         for key in keys:
             value = value[key]
         return value
-    except KeyError:
+    except Exception:
         return None
 
 
